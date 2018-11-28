@@ -2,6 +2,21 @@ defmodule Mix.Tasks.PhoneNumber.LoadPhoneData do
   use Mix.Task
   @shortdoc "Load phone data from xls file"
   @files_path  Application.get_env(:phone_number, :files_path)
+
+  defp base_dir() do
+    app_path =
+      Application.app_dir(:phone_number)
+    files_path =
+      case is_nil(@files_path) do
+        true ->
+          "/priv/phone_number"
+        false ->
+          @files_path
+      end
+    app_path
+    |> Kernel.<>(files_path)
+  end
+
   def run(path) do
     PhoneNumber.Country.parse_file(path)
     |> write_file(file_path())
@@ -24,21 +39,6 @@ defmodule Mix.Tasks.PhoneNumber.LoadPhoneData do
   def xml_file_path() do
     base_dir()
     |> Path.join("telephone_number_data_file.xml")
-  end
-
-  defp base_dir() do
-    app_path =
-      Application.app_dir(:phone_number)
-    files_path =
-      @files_path
-      |> case is_nil() do
-        true ->
-          "/priv/phone_number"
-        false ->
-          @files_path
-      end
-    app_path
-    |> Kernel.<>(files_path)
   end
 
 end
