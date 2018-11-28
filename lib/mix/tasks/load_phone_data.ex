@@ -27,9 +27,13 @@ defmodule Mix.Tasks.PhoneNumber.LoadPhoneData do
   end
 
   defp base_dir() do
-    IO.inspect{@files_path, Application.app_dir(:phone_number)}
-    Application.app_dir(:phone_number)
-    |> Kernel.<>(@files_path)
+    files_path =
+      @files_path
+      |> Kernel.||("/priv/phone_number")
+    app_path =
+      Application.app_dir(:phone_number)
+    app_path
+    |> Kernel.<>(files_path)
   end
 
 end
