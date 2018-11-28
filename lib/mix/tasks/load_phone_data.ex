@@ -27,6 +27,8 @@ defmodule Mix.Tasks.PhoneNumber.LoadPhoneData do
   end
 
   defp base_dir() do
+    app_path =
+      Application.app_dir(:phone_number)
     files_path =
       @files_path
       |> case is_nil() do
@@ -35,8 +37,6 @@ defmodule Mix.Tasks.PhoneNumber.LoadPhoneData do
         false ->
           @files_path
       end
-    app_path =
-      Application.app_dir(:phone_number)
     app_path
     |> Kernel.<>(files_path)
   end
